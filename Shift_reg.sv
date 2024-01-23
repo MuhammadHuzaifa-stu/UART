@@ -1,15 +1,30 @@
-module Shift_reg(input logic Clk, load, shift_i, rst,input logic [7:0]Parallel_In,
-				 output logic Serial_Out);
+module Shift_reg (
+	input  logic       Clk, 
+	input  logic       load, 
+	input  logic       shift_i, 
+	input  logic       rst,
+	input  logic [7:0] Parallel_In,
 	
-	logic [7:0]tmp;
-	always_ff @(posedge Clk) begin
+	output logic       Serial_Out
+);
+	
+	logic [7:0] tmp;
+
+	always_ff @(posedge Clk) 
+	begin
 		if (rst)
+		begin
 			Serial_Out <= 1'b0;
-		else if(load)
+		end
+		else if (load)
+		begin
 			tmp <= Parallel_In;
-		else if (shift_i) begin
+		end
+		else if (shift_i) 
+		begin
 			Serial_Out <= tmp[0];
-			tmp <= {1'b0,tmp[7:1]};
+			tmp        <= {1'b0,tmp[7:1]};
 		end
 	end
-endmodule
+	
+endmodule: Shift_reg
